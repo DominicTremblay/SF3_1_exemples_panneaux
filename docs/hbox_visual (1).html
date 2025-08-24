@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration HBox JavaFX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .hbox-container {
+            border: 3px solid #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+            position: relative;
+        }
+
+        .hbox-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .hbox-content {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .element {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            min-width: 80px;
+        }
+
+        .element:hover {
+            transform: translateY(-3px);
+        }
+
+        .element:nth-child(1) { background: linear-gradient(45deg, #FF6B6B, #FF8E53); }
+        .element:nth-child(2) { background: linear-gradient(45deg, #4ECDC4, #44A08D); }
+        .element:nth-child(3) { background: linear-gradient(45deg, #A8E6CF, #7FCDCD); }
+        .element:nth-child(4) { background: linear-gradient(45deg, #FFD93D, #FF6B6B); }
+
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .flow-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .flow-arrow {
+            color: #4CAF50;
+            font-size: 1.5em;
+            margin: 0 10px;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #63b3ed; }
+        .string { color: #68d391; }
+        .comment { color: #a0aec0; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🔗 HBox - Disposition Horizontale</h1>
+        
+        <p class="description">
+            Le <strong>HBox</strong> organise automatiquement les éléments enfants en une ligne horizontale, 
+            de la gauche vers la droite. C'est le composant de mise en page le plus simple de JavaFX.
+        </p>
+
+        <div class="flow-direction">
+            Gauche <span class="flow-arrow">→</span> <span class="flow-arrow">→</span> <span class="flow-arrow">→</span> Droite
+        </div>
+
+        <div class="hbox-container">
+            <div class="hbox-label">HBox</div>
+            <div class="hbox-content">
+                <div class="element">Bouton 1</div>
+                <div class="element">Bouton 2</div>
+                <div class="element">Label</div>
+                <div class="element">TextField</div>
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="code-example">
+<span class="comment">// Exemple de code JavaFX</span>
+<span class="keyword">HBox</span> hbox = <span class="keyword">new</span> <span class="keyword">HBox</span>();
+hbox.setSpacing(<span class="string">10</span>); <span class="comment">// Espacement entre éléments</span>
+
+<span class="comment">// Ajout d'éléments</span>
+hbox.getChildren().addAll(
+    <span class="keyword">new</span> Button(<span class="string">"Bouton 1"</span>),
+    <span class="keyword">new</span> Button(<span class="string">"Bouton 2"</span>),
+    <span class="keyword">new</span> Label(<span class="string">"Label"</span>),
+    <span class="keyword">new</span> TextField()
+);
+        </div>
+
+        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>💡 Cas d'usage typiques :</strong>
+            <ul style="margin: 10px 0;">
+                <li>Barres d'outils avec boutons alignés</li>
+                <li>Formulaires avec champs côte à côte</li>
+                <li>Menus horizontaux</li>
+                <li>Groupes de boutons d'action</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

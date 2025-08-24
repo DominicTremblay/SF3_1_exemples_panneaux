@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiérarchie d'Héritage des Conteneurs JavaFX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .hierarchy-container {
+            position: relative;
+            margin: 40px 0;
+            padding: 30px;
+            min-height: 600px;
+        }
+
+        .class-box {
+            position: absolute;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 120px;
+        }
+
+        .class-box:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+
+        .class-name {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .class-type {
+            font-size: 0.75em;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .class-description {
+            font-size: 0.7em;
+            opacity: 0.85;
+            line-height: 1.2;
+            font-weight: normal;
+        }
+
+        /* Niveaux de hiérarchie */
+        .level-0 {
+            background: linear-gradient(45deg, #2C3E50, #34495E);
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .level-1 {
+            background: linear-gradient(45deg, #8E44AD, #9B59B6);
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .level-2 {
+            background: linear-gradient(45deg, #3498DB, #2980B9);
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .level-3 {
+            background: linear-gradient(45deg, #E67E22, #D35400);
+            top: 320px;
+        }
+
+        .level-4 {
+            background: linear-gradient(45deg, #27AE60, #2ECC71);
+            top: 420px;
+        }
+
+        /* Positionnement spécifique */
+        .region { left: 50%; transform: translateX(-50%); }
+        .pane { left: 50%; transform: translateX(-50%); }
+
+        /* Conteneurs spécifiques */
+        .hbox { left: 5%; transform: translateX(-50%); }
+        .vbox { left: 18%; transform: translateX(-50%); }
+        .stackpane { left: 31%; transform: translateX(-50%); }
+        .flowpane { left: 44%; transform: translateX(-50%); }
+        .tilepane { left: 57%; transform: translateX(-50%); }
+        .borderpane { left: 70%; transform: translateX(-50%); }
+        .gridpane { left: 83%; transform: translateX(-50%); }
+        .anchorpane { left: 96%; transform: translateX(-50%); }
+
+        /* Lignes de connexion */
+        .connection-line {
+            position: absolute;
+            background: #7F8C8D;
+            z-index: -1;
+        }
+
+        .vertical-line {
+            width: 2px;
+        }
+
+        .horizontal-line {
+            height: 2px;
+        }
+
+        /* Lignes principales de la hiérarchie */
+        .line-node-parent {
+            top: 85px;
+            height: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .line-parent-region {
+            top: 185px;
+            height: 35px;
+            left: 20%;
+            transform: translateX(-50%);
+        }
+
+        .line-parent-pane {
+            top: 185px;
+            height: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .line-region-pane {
+            top: 285px;
+            height: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .line-pane-containers {
+            top: 385px;
+            height: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Lignes horizontales de connexion */
+        .line-parent-children {
+            top: 185px;
+            width: 300px;
+            left: 20%;
+        }
+
+        .line-containers-spread {
+            top: 385px;
+            width: 90%;
+            left: 5%;
+        }
+
+        /* Lignes verticales pour chaque conteneur */
+        .line-to-hbox {
+            top: 385px;
+            height: 35px;
+            left: 5%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-vbox {
+            top: 385px;
+            height: 35px;
+            left: 18%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-stackpane {
+            top: 385px;
+            height: 35px;
+            left: 31%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-flowpane {
+            top: 385px;
+            height: 35px;
+            left: 44%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-tilepane {
+            top: 385px;
+            height: 35px;
+            left: 57%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-borderpane {
+            top: 385px;
+            height: 35px;
+            left: 70%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-gridpane {
+            top: 385px;
+            height: 35px;
+            left: 83%;
+            transform: translateX(-50%);
+        }
+
+        .line-to-anchorpane {
+            top: 385px;
+            height: 35px;
+            left: 96%;
+            transform: translateX(-50%);
+        }
+
+        /* Points de connexion */
+        .connection-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #2C3E50;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .info-panel {
+            margin: 40px 0;
+            padding: 20px;
+            background: #F8F9FA;
+            border-radius: 10px;
+            border-left: 4px solid #3498DB;
+        }
+
+        .inheritance-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .level-0-color { background: linear-gradient(45deg, #2C3E50, #34495E); }
+        .level-1-color { background: linear-gradient(45deg, #8E44AD, #9B59B6); }
+        .level-2-color { background: linear-gradient(45deg, #3498DB, #2980B9); }
+        .level-3-color { background: linear-gradient(45deg, #E67E22, #D35400); }
+        .level-4-color { background: linear-gradient(45deg, #27AE60, #2ECC71); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">📊 Hiérarchie d'Héritage - Conteneurs JavaFX</h1>
+        
+        <p class="description">
+            Diagramme de l'héritage des classes des conteneurs JavaFX, montrant la hiérarchie 
+            depuis <strong>Node</strong> jusqu'aux conteneurs spécialisés.
+        </p>
+
+        <div class="hierarchy-container">
+            <!-- Lignes principales de la hiérarchie -->
+            <!-- Node vers Parent -->
+            <div class="connection-line vertical-line" style="top: 85px; height: 35px; left: 50%; transform: translateX(-50%);"></div>
+            
+            <!-- Parent vers Region -->
+            <div class="connection-line vertical-line" style="top: 185px; height: 35px; left: 50%; transform: translateX(-50%);"></div>
+            
+            <!-- Region vers Pane -->
+            <div class="connection-line vertical-line" style="top: 285px; height: 35px; left: 50%; transform: translateX(-50%);"></div>
+            
+            <!-- Pane vers tous les conteneurs -->
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 50%; transform: translateX(-50%);"></div>
+            <div class="connection-line horizontal-line" style="top: 385px; width: 900px; left: 5%;"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 5%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 18%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 31%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 44%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 57%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 70%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 83%; transform: translateX(-50%);"></div>
+            <div class="connection-line vertical-line" style="top: 385px; height: 35px; left: 96%; transform: translateX(-50%);"></div>
+
+            <!-- Classes de base -->
+            <div class="class-box level-0 node">
+                <div class="class-name">Node</div>
+                <div class="class-type">Classe abstraite</div>
+                <div class="class-description">Base de tout élément UI</div>
+            </div>
+
+            <div class="class-box level-1 parent">
+                <div class="class-name">Parent</div>
+                <div class="class-type">Classe abstraite</div>
+                <div class="class-description">Peut contenir des enfants</div>
+            </div>
+
+            <div class="class-box level-2 region">
+                <div class="class-name">Region</div>
+                <div class="class-type">Classe concrète</div>
+                <div class="class-description">Gestion CSS et dimensionnement</div>
+            </div>
+
+            <div class="class-box level-3 pane">
+                <div class="class-name">Pane</div>
+                <div class="class-type">Classe concrète</div>
+                <div class="class-description">Conteneur sans logique de layout</div>
+            </div>
+
+            <!-- Conteneurs spécialisés -->
+            <div class="class-box level-4 hbox">
+                <div class="class-name">HBox</div>
+                <div class="class-type">Horizontal</div>
+            </div>
+
+            <div class="class-box level-4 vbox">
+                <div class="class-name">VBox</div>
+                <div class="class-type">Vertical</div>
+            </div>
+
+            <div class="class-box level-4 stackpane">
+                <div class="class-name">StackPane</div>
+                <div class="class-type">Empilage</div>
+            </div>
+
+            <div class="class-box level-4 flowpane">
+                <div class="class-name">FlowPane</div>
+                <div class="class-type">Fluide</div>
+            </div>
+
+            <div class="class-box level-4 tilepane">
+                <div class="class-name">TilePane</div>
+                <div class="class-type">Tuiles</div>
+            </div>
+
+            <div class="class-box level-4 borderpane">
+                <div class="class-name">BorderPane</div>
+                <div class="class-type">5 zones</div>
+            </div>
+
+            <div class="class-box level-4 gridpane">
+                <div class="class-name">GridPane</div>
+                <div class="class-type">Grille</div>
+            </div>
+
+            <div class="class-box level-4 anchorpane">
+                <div class="class-name">AnchorPane</div>
+                <div class="class-type">Ancrage</div>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <strong>🎯 Légende des niveaux d'héritage :</strong>
+            <div class="inheritance-legend">
+                <div class="legend-item">
+                    <div class="legend-color level-0-color"></div>
+                    <span><strong>Node</strong> - Base de tous les éléments UI</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color level-1-color"></div>
+                    <span><strong>Parent</strong> - Peut contenir des enfants</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color level-2-color"></div>
+                    <span><strong>Region</strong> - Gestion taille et style CSS</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color level-3-color"></div>
+                    <span><strong>Pane</strong> - Conteneur de base</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color level-4-color"></div>
+                    <span><strong>Conteneurs</strong> - Logiques de mise en page</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #E8F6F3; padding: 20px; border-radius: 8px; margin-top: 20px;">
+            <strong>💡 Implications de l'héritage :</strong>
+            <ul style="margin: 10px 0;">
+                <li><strong>Node</strong> → Propriétés communes : position, taille, transformations, événements</li>
+                <li><strong>Parent</strong> → Gestion des enfants : getChildren(), lookup(), etc.</li>
+                <li><strong>Region</strong> → Taille et style : padding, borders, background, CSS</li>
+                <li><strong>Pane</strong> → Conteneur simple sans logique de positionnement</li>
+                <li><strong>Conteneurs</strong> → Logiques spécialisées de mise en page</li>
+            </ul>
+        </div>
+
+        <div style="background: #FFF3CD; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FFC107;">
+            <strong>⚠️ Note importante :</strong> Tous les conteneurs héritent des méthodes et propriétés de leurs classes parentes. 
+            Par exemple, HBox possède toutes les méthodes de Pane, Region, Parent et Node.
+        </div>
+    </div>
+</body>
+</html>

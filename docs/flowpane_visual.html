@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration FlowPane JavaFX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .flowpane-container {
+            border: 3px solid #FF9800;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+            position: relative;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .flowpane-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #FF9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .flowpane-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .element {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .element:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .element:nth-child(1) { 
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            width: 80px;
+        }
+        .element:nth-child(2) { 
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            width: 100px;
+        }
+        .element:nth-child(3) { 
+            background: linear-gradient(45deg, #A8E6CF, #7FCDCD);
+            width: 60px;
+        }
+        .element:nth-child(4) { 
+            background: linear-gradient(45deg, #FFD93D, #FF6B6B);
+            width: 120px;
+        }
+        .element:nth-child(5) { 
+            background: linear-gradient(45deg, #DDA0DD, #9370DB);
+            width: 90px;
+        }
+        .element:nth-child(6) { 
+            background: linear-gradient(45deg, #87CEEB, #4682B4);
+            width: 70px;
+        }
+        .element:nth-child(7) { 
+            background: linear-gradient(45deg, #F0E68C, #DAA520);
+            width: 110px;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .flow-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: #666;
+            font-weight: bold;
+            gap: 15px;
+        }
+
+        .flow-arrow {
+            color: #FF9800;
+            font-size: 1.5em;
+        }
+
+        .wrap-indicator {
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FF9800;
+            font-size: 1.2em;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #63b3ed; }
+        .string { color: #68d391; }
+        .comment { color: #a0aec0; font-style: italic; }
+
+        .demo-section {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #FF9800;
+        }
+
+        .resize-demo {
+            border: 2px dashed #FF9800;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .resize-demo::after {
+            content: "↔️ Redimensionner";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: #FF9800;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🌊 FlowPane - Disposition Fluide</h1>
+        
+        <p class="description">
+            Le <strong>FlowPane</strong> dispose les éléments de gauche à droite, puis passe à la ligne suivante 
+            quand il n'y a plus de place. Comme le comportement d'un texte qui s'adapte à la largeur.
+        </p>
+
+        <div class="flow-direction">
+            <span>Gauche → Droite</span>
+            <span class="flow-arrow">↷</span>
+            <span>Retour à la ligne</span>
+        </div>
+
+        <div class="demo-section">
+            <strong>🎯 Comportement adaptatif :</strong>
+            <div class="resize-demo">
+                <div class="flowpane-container">
+                    <div class="flowpane-label">FlowPane</div>
+                    <div class="flowpane-content">
+                        <div class="element">Btn1</div>
+                        <div class="element">Button2</div>
+                        <div class="element">OK</div>
+                        <div class="element">Annuler</div>
+                        <div class="element">Aide</div>
+                        <div class="element">Info</div>
+                        <div class="element">Paramètres</div>
+                    </div>
+                    <div class="wrap-indicator">↩️</div>
+                </div>
+            </div>
+            <em>Les éléments se réorganisent automatiquement selon la largeur disponible</em>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="code-example">
+<span class="comment">// Exemple de code JavaFX</span>
+<span class="keyword">FlowPane</span> flowPane = <span class="keyword">new</span> <span class="keyword">FlowPane</span>();
+flowPane.setHgap(<span class="string">10</span>); <span class="comment">// Espacement horizontal</span>
+flowPane.setVgap(<span class="string">10</span>); <span class="comment">// Espacement vertical</span>
+
+<span class="comment">// Ajout d'éléments de tailles variables</span>
+flowPane.getChildren().addAll(
+    <span class="keyword">new</span> Button(<span class="string">"Petit"</span>),
+    <span class="keyword">new</span> Button(<span class="string">"Bouton Plus Long"</span>),
+    <span class="keyword">new</span> Button(<span class="string">"OK"</span>),
+    <span class="keyword">new</span> Button(<span class="string">"Annuler"</span>),
+    <span class="keyword">new</span> TextField(<span class="string">"Texte"</span>)
+);
+        </div>
+
+        <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>💡 Cas d'usage typiques :</strong>
+            <ul style="margin: 10px 0;">
+                <li>Barres d'outils avec boutons de tailles variables</li>
+                <li>Galeries d'images qui s'adaptent à l'écran</li>
+                <li>Tags ou étiquettes dans un formulaire</li>
+                <li>Interfaces responsives qui s'ajustent à la fenêtre</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

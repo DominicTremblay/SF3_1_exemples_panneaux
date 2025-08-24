@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration TilePane JavaFX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .tilepane-container {
+            border: 3px solid #E91E63;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+            position: relative;
+            width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tilepane-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #E91E63;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .tilepane-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .tile {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+            font-size: 0.9em;
+        }
+
+        .tile:hover {
+            transform: scale(1.05);
+        }
+
+        .tile:nth-child(1) { background: linear-gradient(45deg, #FF6B6B, #FF8E53); }
+        .tile:nth-child(2) { background: linear-gradient(45deg, #4ECDC4, #44A08D); }
+        .tile:nth-child(3) { background: linear-gradient(45deg, #A8E6CF, #7FCDCD); }
+        .tile:nth-child(4) { background: linear-gradient(45deg, #FFD93D, #FF6B6B); }
+        .tile:nth-child(5) { background: linear-gradient(45deg, #DDA0DD, #9370DB); }
+        .tile:nth-child(6) { background: linear-gradient(45deg, #87CEEB, #4682B4); }
+        .tile:nth-child(7) { background: linear-gradient(45deg, #F0E68C, #DAA520); }
+        .tile:nth-child(8) { background: linear-gradient(45deg, #FFA07A, #CD853F); }
+        .tile:nth-child(9) { background: linear-gradient(45deg, #98FB98, #32CD32); }
+
+        .grid-indicator {
+            position: absolute;
+            right: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.8em;
+            color: #E91E63;
+            font-weight: bold;
+        }
+
+        .grid-line {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .grid-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #E91E63;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .flow-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: #666;
+            font-weight: bold;
+            gap: 15px;
+        }
+
+        .flow-arrow {
+            color: #E91E63;
+            font-size: 1.5em;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #63b3ed; }
+        .string { color: #68d391; }
+        .comment { color: #a0aec0; font-style: italic; }
+
+        .demo-section {
+            background: #fce4ec;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #E91E63;
+        }
+
+        .size-demo {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .size-box {
+            border: 2px solid #E91E63;
+            background: #fce4ec;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            text-align: center;
+            min-width: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🔲 TilePane - Grille Uniforme</h1>
+        
+        <p class="description">
+            Le <strong>TilePane</strong> organise les éléments dans une grille où toutes les cellules 
+            ont exactement la même taille. Idéal pour créer des galeries uniformes.
+        </p>
+
+        <div class="flow-direction">
+            <span>Cellules uniformes</span>
+            <span class="flow-arrow">⚏</span>
+            <span>Même taille</span>
+            <span class="flow-arrow">⚏</span>
+            <span>Disposition ordonnée</span>
+        </div>
+
+        <div class="demo-section">
+            <strong>🎯 Caractéristique clé : Taille uniforme</strong>
+            <div class="size-demo">
+                <div class="size-box">120×80px</div>
+                <div class="size-box">120×80px</div>
+                <div class="size-box">120×80px</div>
+            </div>
+            <em>Toutes les tuiles ont automatiquement la même dimension</em>
+        </div>
+
+        <div class="tilepane-container">
+            <div class="tilepane-label">TilePane</div>
+            <div class="tilepane-content">
+                <div class="tile">Image 1</div>
+                <div class="tile">Image 2</div>
+                <div class="tile">Image 3</div>
+                <div class="tile">Photo 4</div>
+                <div class="tile">Icône 5</div>
+                <div class="tile">Media 6</div>
+                <div class="tile">Item 7</div>
+                <div class="tile">Élément 8</div>
+                <div class="tile">Tuile 9</div>
+            </div>
+            <div class="grid-indicator">
+                <div class="grid-line">
+                    <div class="grid-dot"></div>
+                    <span>3 colonnes</span>
+                </div>
+                <div class="grid-line">
+                    <div class="grid-dot"></div>
+                    <span>3 lignes</span>
+                </div>
+                <div class="grid-line">
+                    <div class="grid-dot"></div>
+                    <span>Taille fixe</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="code-example">
+<span class="comment">// Exemple de code JavaFX</span>
+<span class="keyword">TilePane</span> tilePane = <span class="keyword">new</span> <span class="keyword">TilePane</span>();
+tilePane.setPrefColumns(<span class="string">3</span>); <span class="comment">// Nombre de colonnes</span>
+tilePane.setHgap(<span class="string">5</span>); <span class="comment">// Espacement horizontal</span>
+tilePane.setVgap(<span class="string">5</span>); <span class="comment">// Espacement vertical</span>
+
+<span class="comment">// Ajout d'éléments (taille automatiquement uniformisée)</span>
+tilePane.getChildren().addAll(
+    <span class="keyword">new</span> ImageView(<span class="string">"img1.png"</span>),
+    <span class="keyword">new</span> ImageView(<span class="string">"img2.png"</span>),
+    <span class="keyword">new</span> Button(<span class="string">"Bouton"</span>),
+    <span class="keyword">new</span> Label(<span class="string">"Texte long qui sera tronqué"</span>)
+);
+        </div>
+
+        <div style="background: #fce4ec; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>💡 Cas d'usage typiques :</strong>
+            <ul style="margin: 10px 0;">
+                <li>Galeries d'images avec format uniforme</li>
+                <li>Grilles d'icônes dans des applications</li>
+                <li>Tableaux de bord avec widgets identiques</li>
+                <li>Catalogues de produits organisés</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

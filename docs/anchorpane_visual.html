@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration AnchorPane JavaFX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .anchorpane-container {
+            border: 3px solid #8BC34A;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+            position: relative;
+            width: 600px;
+            height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .anchorpane-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #8BC34A;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .anchor-element {
+            position: absolute;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+        }
+
+        .anchor-element:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .anchor-line {
+            position: absolute;
+            border: 2px dashed #8BC34A;
+            opacity: 0.7;
+        }
+
+        .anchor-line.horizontal {
+            height: 0;
+            border-top: 2px dashed #8BC34A;
+        }
+
+        .anchor-line.vertical {
+            width: 0;
+            border-left: 2px dashed #8BC34A;
+        }
+
+        .anchor-indicator {
+            position: absolute;
+            background: #8BC34A;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        /* Éléments positionnés avec ancrages */
+        .element1 {
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+        }
+
+        .element2 {
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 40px;
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+        }
+
+        .element3 {
+            bottom: 20px;
+            left: 20px;
+            width: 80px;
+            height: 40px;
+            background: linear-gradient(45deg, #A8E6CF, #7FCDCD);
+        }
+
+        .element4 {
+            bottom: 20px;
+            right: 20px;
+            width: 110px;
+            height: 40px;
+            background: linear-gradient(45deg, #FFD93D, #FF6B6B);
+        }
+
+        .element5 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 80px;
+            background: linear-gradient(45deg, #DDA0DD, #9370DB);
+        }
+
+        .element6 {
+            top: 80px;
+            left: 200px;
+            right: 200px;
+            height: 40px;
+            background: linear-gradient(45deg, #87CEEB, #4682B4);
+        }
+
+        .element7 {
+            left: 80px;
+            top: 120px;
+            bottom: 80px;
+            width: 60px;
+            background: linear-gradient(45deg, #F0E68C, #DAA520);
+        }
+
+        /* Lignes d'ancrage */
+        .line1 { top: 40px; left: 0; width: 20px; }
+        .line2 { top: 40px; right: 0; width: 20px; }
+        .line3 { bottom: 40px; left: 0; width: 20px; }
+        .line4 { bottom: 40px; right: 0; width: 20px; }
+        .line5 { left: 40px; top: 0; height: 20px; }
+        .line6 { right: 40px; top: 0; height: 20px; }
+        .line7 { left: 40px; bottom: 0; height: 20px; }
+        .line8 { right: 40px; bottom: 0; height: 20px; }
+
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .flow-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: #666;
+            font-weight: bold;
+            gap: 15px;
+        }
+
+        .flow-arrow {
+            color: #8BC34A;
+            font-size: 1.5em;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        .keyword { color: #63b3ed; }
+        .string { color: #68d391; }
+        .comment { color: #a0aec0; font-style: italic; }
+
+        .demo-section {
+            background: #f1f8e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #8BC34A;
+        }
+
+        .anchor-demo {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .anchor-box {
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #8BC34A;
+            border-radius: 8px;
+            background: white;
+            position: relative;
+        }
+
+        .anchor-title {
+            font-weight: bold;
+            color: #8BC34A;
+            margin-bottom: 8px;
+        }
+
+        .anchor-desc {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .distance-label {
+            position: absolute;
+            background: rgba(139, 195, 74, 0.8);
+            color: white;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 0.6em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🔗 AnchorPane - Positionnement Absolu</h1>
+        
+        <p class="description">
+            L'<strong>AnchorPane</strong> permet de positionner les éléments par rapport aux bords du conteneur 
+            avec des distances fixes. Offre le contrôle le plus précis mais nécessite plus de configuration.
+        </p>
+
+        <div class="flow-direction">
+            <span>Distance aux bords</span>
+            <span class="flow-arrow">⚓</span>
+            <span>Positionnement fixe</span>
+            <span class="flow-arrow">⚓</span>
+            <span>Contrôle total</span>
+        </div>
+
+        <div class="demo-section">
+            <strong>🎯 Types d'ancrage disponibles :</strong>
+            <div class="anchor-demo">
+                <div class="anchor-box">
+                    <div class="anchor-title">TopAnchor</div>
+                    <div class="anchor-desc">Distance depuis le haut</div>
+                </div>
+                <div class="anchor-box">
+                    <div class="anchor-title">LeftAnchor</div>
+                    <div class="anchor-desc">Distance depuis la gauche</div>
+                </div>
+                <div class="anchor-box">
+                    <div class="anchor-title">RightAnchor</div>
+                    <div class="anchor-desc">Distance depuis la droite</div>
+                </div>
+                <div class="anchor-box">
+                    <div class="anchor-title">BottomAnchor</div>
+                    <div class="anchor-desc">Distance depuis le bas</div>
+                </div>
+                <div class="anchor-box">
+                    <div class="anchor-title">Combinaisons</div>
+                    <div class="anchor-desc">Plusieurs ancrages simultanés</div>
+                </div>
+                <div class="anchor-box">
+                    <div class="anchor-title">Étirement</div>
+                    <div class="anchor-desc">Left + Right = largeur auto</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="anchorpane-container">
+            <div class="anchorpane-label">AnchorPane</div>
+            
+            <!-- Lignes d'ancrage -->
+            <div class="anchor-line horizontal line1"></div>
+            <div class="anchor-line horizontal line2"></div>
+            <div class="anchor-line horizontal line3"></div>
+            <div class="anchor-line horizontal line4"></div>
+            <div class="anchor-line vertical line5"></div>
+            <div class="anchor-line vertical line6"></div>
+            <div class="anchor-line vertical line7"></div>
+            <div class="anchor-line vertical line8"></div>
+            
+            <!-- Éléments ancrés -->
+            <div class="anchor-element element1">
+                Top-Left
+                <div class="distance-label" style="top: -8px; left: -8px;">20px</div>
+            </div>
+            
+            <div class="anchor-element element2">
+                Top-Right
+                <div class="distance-label" style="top: -8px; right: -8px;">20px</div>
+            </div>
+            
+            <div class="anchor-element element3">
+                Bottom-Left
+                <div class="distance-label" style="bottom: -8px; left: -8px;">20px</div>
+            </div>
+            
+            <div class="anchor-element element4">
+                Bottom-Right
+                <div class="distance-label" style="bottom: -8px; right: -8px;">20px</div>
+            </div>
+            
+            <div class="anchor-element element5">
+                Centre<br/>(calc. manuel)
+            </div>
+            
+            <div class="anchor-element element6">
+                Étiré H<br/>(Left+Right)
+                <div class="distance-label" style="top: -8px; left: 50px;">200px</div>
+                <div class="distance-label" style="top: -8px; right: 50px;">200px</div>
+            </div>
+            
+            <div class="anchor-element element7">
+                Étiré V<br/>(Top+Bottom)
+                <div class="distance-label" style="left: -8px; top: 20px;">120px</div>
+                <div class="distance-label" style="left: -8px; bottom: 20px;">80px</div>
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="code-example">
+<span class="comment">// Exemple de code JavaFX</span>
+<span class="keyword">AnchorPane</span> anchorPane = <span class="keyword">new</span> <span class="keyword">AnchorPane</span>();
+
+<span class="comment">// Créer les éléments</span>
+Button topLeft = <span class="keyword">new</span> Button(<span class="string">"Top-Left"</span>);
+Button stretched = <span class="keyword">new</span> Button(<span class="string">"Étiré"</span>);
+
+<span class="comment">// Ancrage simple (coin supérieur gauche)</span>
+AnchorPane.setTopAnchor(topLeft, <span class="string">20.0</span>);
+AnchorPane.setLeftAnchor(topLeft, <span class="string">20.0</span>);
+
+<span class="comment">// Ancrage multiple (étirement horizontal)</span>
+AnchorPane.setTopAnchor(stretched, <span class="string">80.0</span>);
+AnchorPane.setLeftAnchor(stretched, <span class="string">50.0</span>);
+AnchorPane.setRightAnchor(stretched, <span class="string">50.0</span>); <span class="comment">// Étire automatiquement</span>
+
+<span class="comment">// Ajout au conteneur</span>
+anchorPane.getChildren().addAll(topLeft, stretched);
+        </div>
+
+        <div style="background: #f1f8e9; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>💡 Cas d'usage typiques :</strong>
+            <ul style="margin: 10px 0;">
+                <li>Interfaces nécessitant un positionnement pixel-perfect</li>
+                <li>Éléments qui doivent rester à distance fixe des bords</li>
+                <li>Overlays et fenêtres modales personnalisées</li>
+                <li>Layouts complexes avec contraintes de redimensionnement</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

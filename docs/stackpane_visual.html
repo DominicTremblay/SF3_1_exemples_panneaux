@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustration StackPane JavaFX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .stackpane-container {
+            border: 3px solid #9C27B0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .stackpane-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #9C27B0;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .stackpane-content {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .element {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .element:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .element:nth-child(1) { 
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            width: 280px;
+            height: 180px;
+            z-index: 1;
+        }
+
+        .element:nth-child(2) { 
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            width: 200px;
+            height: 120px;
+            z-index: 2;
+        }
+
+        .element:nth-child(3) { 
+            background: linear-gradient(45deg, #A8E6CF, #7FCDCD);
+            width: 120px;
+            height: 80px;
+            z-index: 3;
+        }
+
+        .element:nth-child(4) { 
+            background: linear-gradient(45deg, #FFD93D, #FF6B6B);
+            width: 60px;
+            height: 40px;
+            z-index: 4;
+            font-size: 0.8em;
+        }
+
+        .layer-indicator {
+            position: absolute;
+            right: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .layer {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .layer-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #9C27B0;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .flow-direction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: #666;
+            font-weight: bold;
+            gap: 15px;
+        }
+
+        .flow-arrow {
+            color: #9C27B0;
+            font-size: 1.5em;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #63b3ed; }
+        .string { color: #68d391; }
+        .comment { color: #a0aec0; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🏗️ StackPane - Empilement Centré</h1>
+        
+        <p class="description">
+            Le <strong>StackPane</strong> empile tous les éléments enfants les uns sur les autres, 
+            centrés par défaut. Le dernier élément ajouté apparaît au premier plan.
+        </p>
+
+        <div class="flow-direction">
+            <span>Arrière-plan</span>
+            <span class="flow-arrow">⟸</span>
+            <span>Empilage</span>
+            <span class="flow-arrow">⟹</span>
+            <span>Premier plan</span>
+        </div>
+
+        <div class="stackpane-container">
+            <div class="stackpane-label">StackPane</div>
+            <div class="stackpane-content">
+                <div class="element">Image de fond</div>
+                <div class="element">Panneau</div>
+                <div class="element">Texte</div>
+                <div class="element">Icône</div>
+                
+                <div class="layer-indicator">
+                    <div class="layer">
+                        <div class="layer-dot"></div>
+                        <span>Couche 4</span>
+                    </div>
+                    <div class="layer">
+                        <div class="layer-dot"></div>
+                        <span>Couche 3</span>
+                    </div>
+                    <div class="layer">
+                        <div class="layer-dot"></div>
+                        <span>Couche 2</span>
+                    </div>
+                    <div class="layer">
+                        <div class="layer-dot"></div>
+                        <span>Couche 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="code-example">
+<span class="comment">// Exemple de code JavaFX</span>
+<span class="keyword">StackPane</span> stackPane = <span class="keyword">new</span> <span class="keyword">StackPane</span>();
+
+<span class="comment">// Ajout d'éléments (empilés du bas vers le haut)</span>
+stackPane.getChildren().addAll(
+    <span class="keyword">new</span> ImageView(<span class="string">"background.png"</span>), <span class="comment">// Fond</span>
+    <span class="keyword">new</span> Rectangle(<span class="string">200</span>, <span class="string">100</span>, Color.BLUE), <span class="comment">// Panneau</span>
+    <span class="keyword">new</span> Label(<span class="string">"Texte superposé"</span>), <span class="comment">// Texte</span>
+    <span class="keyword">new</span> Button(<span class="string">"OK"</span>) <span class="comment">// Bouton au premier plan</span>
+);
+        </div>
+
+        <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>💡 Cas d'usage typiques :</strong>
+            <ul style="margin: 10px 0;">
+                <li>Superposition d'images et de texte</li>
+                <li>Création d'overlays et de modales</li>
+                <li>Centrage automatique d'éléments</li>
+                <li>Effets de transparence et de calques</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
