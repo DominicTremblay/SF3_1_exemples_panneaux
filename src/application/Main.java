@@ -5,12 +5,16 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -39,6 +43,7 @@ public class Main extends Application {
 		hbox.setPadding(new Insets(40, 10, 40, 15));
 		hbox.setSpacing(5);
 		hbox.setPrefWidth(300);
+	
 
 		Button btn1 = new Button("Button1");
 		Button btn2 = new Button("Button2");
@@ -114,13 +119,23 @@ public class Main extends Application {
 
 		return stackpane;
 	}
+	
+	private FlowPane creerFlowPane() {
+		FlowPane flowpane = new FlowPane();
+		flowpane.setPadding(new Insets(20));
+		BackgroundFill bg = new BackgroundFill(Color.BEIGE, new CornerRadii(15), new Insets(10));
+		
+		flowpane.setBackground(new Background(bg));
+		
+		return flowpane;
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-//			FlowPane root = new FlowPane();
 
-			StackPane root = creerStackPane();
+//			Pane root = creerFlowPane();
+			Pane root = creerStackPane();
 
 //			root.getChildren().add(creerHBox());
 //			root.getChildren().add(creerVBox());
