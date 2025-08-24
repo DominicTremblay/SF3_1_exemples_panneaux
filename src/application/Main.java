@@ -10,11 +10,16 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 // padding: distance entre les noeuds et les bordures du panneau VBox.
@@ -43,23 +48,20 @@ public class Main extends Application {
 
 		TextField txt1 = new TextField("TextField 1");
 
-		
-
 		hbox.setHgrow(btn1, Priority.ALWAYS);
 		btn1.setMaxWidth(Double.MAX_VALUE);
 		btn2.setMinWidth(200);
-		
+
 		txt1.setMinSize(100, 20);
 		txt1.setMaxSize(300, 100);
 		txt1.setPrefSize(200, 30);
-		
+
 		btn1.setMinSize(100, 20);
 		hbox.getChildren().addAll(btn1, txt1, btn2, btn3, btn4, btn5);
 
-		
 		return hbox;
 	}
-	
+
 	private VBox creerVBox() {
 		VBox vbox = new VBox();
 		vbox.setBorder(new Border(
@@ -73,7 +75,7 @@ public class Main extends Application {
 		Button btn3 = new Button("Button3");
 		Button btn4 = new Button("Button4");
 		Button btn5 = new Button("Button5");
-		
+
 		btn5.setPrefHeight(60);
 
 		TextField txt1 = new TextField("TextField 1");
@@ -81,25 +83,47 @@ public class Main extends Application {
 		vbox.setVgrow(btn1, Priority.ALWAYS);
 		btn1.setMaxWidth(Double.MAX_VALUE);
 		btn2.setMinWidth(200);
-		
+
 		txt1.setMinSize(100, 20);
 		txt1.setMaxSize(300, 100);
 		txt1.setPrefSize(200, 30);
-		
+
 		btn1.setMinSize(100, 20);
 		vbox.getChildren().addAll(btn1, txt1, btn2, btn3, btn4, btn5);
 
-		
 		return vbox;
+	}
+
+	private StackPane creerStackPane() {
+
+		StackPane stackpane = new StackPane();
+
+		Rectangle rectangle = new Rectangle(500, 300);
+		rectangle.setFill(Color.ORANGE);
+
+		Circle cercle = new Circle();
+		cercle.setRadius(120);
+		cercle.setFill(Color.BLUE);
+
+		Text texte = new Text("Voici le StackPane");
+
+		texte.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		texte.setFill(Color.WHITE);
+		
+		stackpane.getChildren().addAll(rectangle, cercle, texte);
+
+		return stackpane;
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FlowPane root = new FlowPane();
+//			FlowPane root = new FlowPane();
+
+			StackPane root = creerStackPane();
 
 //			root.getChildren().add(creerHBox());
-			root.getChildren().add(creerVBox());
+//			root.getChildren().add(creerVBox());
 
 			Scene scene = new Scene(root, 600, 400);
 			primaryStage.setScene(scene);
