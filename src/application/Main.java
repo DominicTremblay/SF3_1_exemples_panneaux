@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -43,7 +44,6 @@ public class Main extends Application {
 		hbox.setPadding(new Insets(40, 10, 40, 15));
 		hbox.setSpacing(5);
 		hbox.setPrefWidth(300);
-	
 
 		Button btn1 = new Button("Button1");
 		Button btn2 = new Button("Button2");
@@ -114,33 +114,72 @@ public class Main extends Application {
 
 		texte.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		texte.setFill(Color.WHITE);
-		
+
 		stackpane.getChildren().addAll(rectangle, cercle, texte);
 
 		return stackpane;
 	}
-	
+
 	private FlowPane creerFlowPane() {
 		FlowPane flowpane = new FlowPane();
 		flowpane.setPadding(new Insets(20));
 		BackgroundFill bg = new BackgroundFill(Color.BEIGE, new CornerRadii(15), new Insets(10));
-		
+
 		flowpane.setBackground(new Background(bg));
-		
+
 		return flowpane;
 	}
+
+	private TilePane creerTilePane() {
+		TilePane tilepane = new TilePane();
+
+		tilepane.setPadding(new Insets(10));
+		tilepane.setVgap(10);
+		tilepane.setHgap(10);
+		tilepane.setPrefColumns(2);
+
+		Rectangle rec1 = new Rectangle(100, 100);
+		rec1.setFill(Color.ORANGE);
+		Rectangle rec2 = new Rectangle(200, 150);
+		rec2.setFill(Color.BLUE);
+		Rectangle rec3 = new Rectangle(100, 100);
+		rec3.setFill(Color.GREEN);
+		Rectangle rec4 = new Rectangle(100, 100);
+		rec4.setFill(Color.YELLOW);
+		Rectangle rec5 = new Rectangle(100, 100);
+		rec5.setFill(Color.RED);
+
+//		Button btn1 = new Button("Le Button1 est plus haut");
+//		btn1.setPrefHeight(20);
+//		Button btn2 = new Button("Button2");
+//		Button btn3 = new Button("Le Button3 est plus large");
+//		Button btn4 = new Button("Button4");
+//		Button btn5 = new Button("Button5");
+
+		BackgroundFill bg = new BackgroundFill(Color.BEIGE, new CornerRadii(5), new Insets(10));
+		tilepane.setBackground(new Background(bg));
+
+		Border tileBorder = new Border(
+				new BorderStroke(Color.CRIMSON, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+
+		tilepane.getChildren().addAll(rec1, rec2, rec3, rec4, rec5);
+		return tilepane;
+	}
+	
+
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 
 //			Pane root = creerFlowPane();
-			Pane root = creerStackPane();
+//			Pane root = creerStackPane();
+			Pane root = creerTilePane();
 
 //			root.getChildren().add(creerHBox());
 //			root.getChildren().add(creerVBox());
 
-			Scene scene = new Scene(root, 600, 400);
+			Scene scene = new Scene(root, 500, 400);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {
