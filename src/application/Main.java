@@ -1,10 +1,12 @@
 package application;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
@@ -16,6 +18,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -221,17 +224,46 @@ public class Main extends Application {
 		vboxCenter.setAlignment(Pos.CENTER);
 
 		bPane.setCenter(vboxCenter);
-		
+
 		Text txtFooter = new Text("Voici la section BOTTOM du BorderPane");
 		txtFooter.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		txtFooter.setFill(Color.CORNFLOWERBLUE);
 
 		bPane.setBottom(txtFooter);
 		BorderPane.setAlignment(txtFooter, Pos.CENTER);
-		
 
 		return bPane;
 
+	}
+
+	private GridPane creerGridPane() {
+		GridPane form = new GridPane();
+		form.setPadding(new Insets(10));
+		form.setHgap(10);
+		form.setVgap(10);
+
+		Text txtTitre = new Text("Entrez votre nom et email");
+		form.add(txtTitre, 0, 0, 2, 1);
+		
+		// Labels en colonne 0
+		form.add(new Label("Nom:"), 0, 2);
+		form.add(new Label("Email:"), 0, 3);
+
+		// Champs en colonne 1
+		TextField nameField = new TextField();
+		GridPane.setHgrow(nameField, Priority.ALWAYS);
+		form.add(nameField, 1, 2);
+
+		TextField emailField = new TextField();
+		GridPane.setHgrow(emailField, Priority.ALWAYS);
+		form.add(emailField, 1, 3);
+
+		// Bouton qui s'étend sur 2 colonnes
+		Button submitBtn = new Button("Valider");
+		form.add(submitBtn, 0, 4, 2, 1);
+		GridPane.setHalignment(submitBtn, HPos.CENTER);
+		
+		return form;
 	}
 
 	@Override
@@ -241,7 +273,9 @@ public class Main extends Application {
 //			Pane root = creerFlowPane();
 //			Pane root = creerStackPane();
 //			Pane root = creerTilePane();
-			Pane root = creerBorderPane();
+//			Pane root = creerBorderPane();
+			
+			Pane root = creerGridPane();
 
 //			root.getChildren().add(creerHBox());
 //			root.getChildren().add(creerVBox());
