@@ -2,12 +2,15 @@ package application;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
@@ -165,8 +168,71 @@ public class Main extends Application {
 		tilepane.getChildren().addAll(rec1, rec2, rec3, rec4, rec5);
 		return tilepane;
 	}
-	
 
+	private BorderPane creerBorderPane() {
+		// on utilise setTop, setCenter, setLeft ou setRight
+
+		BorderPane bPane = new BorderPane();
+		bPane.setPadding(new Insets(10));
+
+		Text txtTitre = new Text("Voici un BorderPane qui permet de spécifier Top, Center, Left ou Right");
+		txtTitre.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		txtTitre.setFill(Color.CORNFLOWERBLUE);
+
+		bPane.setTop(txtTitre);
+		BorderPane.setAlignment(txtTitre, Pos.CENTER);
+
+		VBox vboxRight = new VBox();
+		vboxRight.setBorder(new Border(
+				new BorderStroke(Color.RED, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		vboxRight.setPrefWidth(140);
+		vboxRight.setAlignment(Pos.CENTER);
+		Button btn1 = new Button("Bouton à droite");
+		vboxRight.getChildren().add(btn1);
+
+		bPane.setRight(vboxRight);
+		BorderPane.setAlignment(vboxRight, Pos.CENTER);
+		bPane.setMargin(vboxRight, new Insets(10));
+
+		VBox vboxLeft = new VBox();
+		vboxLeft.setBorder(new Border(
+				new BorderStroke(Color.GREEN, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		vboxLeft.setPrefWidth(140);
+		vboxLeft.setAlignment(Pos.CENTER);
+		Button btn2 = new Button("Bouton à gauche");
+		vboxLeft.getChildren().add(btn2);
+
+		bPane.setLeft(vboxLeft);
+		BorderPane.setAlignment(vboxRight, Pos.CENTER);
+		bPane.setMargin(vboxRight, new Insets(10));
+
+		VBox vboxCenter = new VBox();
+		vboxCenter.setPrefWidth(200);
+		vboxCenter.setPrefWidth(300);
+
+		TextArea txtCenter = new TextArea(
+				"BorderPane divise l'interface en 5 zones fixes : Nord (top), Sud (bottom), Est (right), Ouest (left) et Centre (center).");
+		txtCenter.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		txtCenter.setWrapText(true);
+		txtCenter.setEditable(false);
+
+		vboxCenter.getChildren().add(txtCenter);
+
+		vboxCenter.setAlignment(Pos.CENTER);
+
+		bPane.setCenter(vboxCenter);
+		
+		Text txtFooter = new Text("Voici la section BOTTOM du BorderPane");
+		txtFooter.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		txtFooter.setFill(Color.CORNFLOWERBLUE);
+
+		bPane.setBottom(txtFooter);
+		BorderPane.setAlignment(txtFooter, Pos.CENTER);
+		
+
+		return bPane;
+
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -174,7 +240,8 @@ public class Main extends Application {
 
 //			Pane root = creerFlowPane();
 //			Pane root = creerStackPane();
-			Pane root = creerTilePane();
+//			Pane root = creerTilePane();
+			Pane root = creerBorderPane();
 
 //			root.getChildren().add(creerHBox());
 //			root.getChildren().add(creerVBox());
