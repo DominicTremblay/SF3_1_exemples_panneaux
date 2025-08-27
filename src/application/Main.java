@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -265,6 +266,35 @@ public class Main extends Application {
 		
 		return form;
 	}
+	
+	private AnchorPane creerAnchorPane() {
+		AnchorPane aPane = new AnchorPane();
+		
+		Text txtTitre = new Text("Ceci est un AnchorPane.");
+		txtTitre.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		txtTitre.setFill(Color.ROYALBLUE);
+		
+		AnchorPane.setTopAnchor(txtTitre, 80.0);
+		AnchorPane.setLeftAnchor(txtTitre, 150.0);
+		
+		HBox hBox = new HBox();
+		
+		Button btnOk = new Button("Ok");
+		btnOk.setPrefWidth(100);
+		
+		Button btnAnnuler = new Button("Annuler");
+		btnAnnuler.setPrefWidth(100);
+		
+		hBox.getChildren().addAll(btnOk, btnAnnuler);
+		
+		AnchorPane.setBottomAnchor(hBox, 80.0);
+		AnchorPane.setLeftAnchor(hBox, 140.0);
+		
+		aPane.getChildren().add(txtTitre);
+		aPane.getChildren().add(hBox);
+		
+		return aPane;
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -275,7 +305,9 @@ public class Main extends Application {
 //			Pane root = creerTilePane();
 //			Pane root = creerBorderPane();
 			
-			Pane root = creerGridPane();
+//			Pane root = creerGridPane();
+			
+			Pane root = creerAnchorPane();
 
 //			root.getChildren().add(creerHBox());
 //			root.getChildren().add(creerVBox());
